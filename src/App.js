@@ -3,6 +3,7 @@ import "./App.css";
 import { signup_fetch } from "./util";
 
 const App = () => {
+  const [user, setUser] = useState();
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
 
@@ -14,11 +15,16 @@ const App = () => {
 
   return (
     <div className="App">
-      <form onSubmit={signup_handler}>
-        <input onChange={(e) => setUsername(e.target.value)} placeholder="username"/>
-        <input onChange={(e) => setPassword(e.target.value)} placeholder="password"/>
-        <button type="submit">Submit</button>
-      </form>
+      <h1>{user}</h1>
+      {!user ? (
+        <form onSubmit={signup_handler}>
+          <input onChange={(e) => setUsername(e.target.value)} placeholder="username"/>
+          <input onChange={(e) => setPassword(e.target.value)} placeholder="password"/>
+          <button type="submit">Submit</button>
+        </form>
+      ) : (
+        <h2>You are logged in</h2>
+      )}
     </div>
   );
 };
