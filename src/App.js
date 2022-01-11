@@ -1,45 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./App.css";
-import { Login } from "./components/login";
+import { signup_fetch } from "./util";
 
 const App = () => {
-  const [user, setUser] = useState();
   const [username, setUsername] = useState();
-  const [arr, setArr] = useState([]);
+  const [password, setPassword] = useState();
 
-  useEffect(() => {
-    fetchReq();
-  }, []);
-
-  const submitHandler = (e) => {
-    e.preventDefault();
-    setUsername(user);
-  };
-
-  const fetchReq = async () => {
-    const response = await fetch("https://picsum.photos/v2/list");
-    const data = await response.json();
-    setArr(data);
-  };
+  const signup_handler = async (e) => {
+    e.preventDefault()
+    const return_value = await signup_fetch(username, password);
+    console.log(return_value);
+  }
 
   return (
     <div className="App">
-      <h1>{user}</h1>
-      {username ? <h1>Welcome {username}</h1> : <h1>Please log in</h1>}
-      {username && <h2>Success</h2>}
-      <Login setter={setUser} handler={submitHandler} />
-      {arr.map((item, i) => {
-        return (
-          <div>
-            <p key={i}>{item.author}</p>
-            <img
-              className="imageFunTime"
-              src={item.download_url}
-              alt="random"
-            />
-          </div>
-        );
-      })}
+      <form onSubmit={signup_handler}>
+        <input onChange={(e) => setUsername(e.target.value)} placeholder="username"/>
+        <input onChange={(e) => setPassword(e.target.value)} placeholder="password"/>
+        <button type="submit">Submit</button>
+      </form>
     </div>
   );
 };
